@@ -1,12 +1,13 @@
 var assert = require('assert');
 var errorMessenger = require('../lib');
-var isObject = require('../lib/isObject');
+var is = require('../lib/is');
 
 describe('error-messenger', function () {
 
   describe('errorMessenger', function() {
     it('should return a string', function() {
       var testMessage = errorMessenger();
+      console.log(testMessage);
       assert.equal(typeof testMessage, 'string');
     });
 
@@ -33,20 +34,57 @@ describe('error-messenger', function () {
 
   });
 
-  describe('isObject', function() {
-    var trueArray = [{}, {'one': 1}, {0: '0', 1: '1', 2: '2'}];
-    var falseArray = [[], '', function() {}];
+  describe('is', function() {
+    describe('is.object', function() {
+      var trueArray = [{}, {'one': 1}, {0: '0', 1: '1', 2: '2'}];
+      var falseArray = [[], '', function() {}];
 
-    trueArray.forEach(function(t) {
-      it('should return true', function() {
-        assert(isObject(t));
+      trueArray.forEach(function(t) {
+        it('should return true', function() {
+          assert(is.object(t));
+        });
+      });
+
+      falseArray.forEach(function(f) {
+        it('should return false', function() {
+          assert.equal(is.object(f), false);
+        });
       });
     });
 
-    falseArray.forEach(function(f) {
-      it('should return false', function() {
-        assert.equal(isObject(f), false);
+    describe('is.string', function() {
+      var trueArray = ['1', 'hello', ''];
+      var falseArray = [[], {}, function() {}];
+
+      trueArray.forEach(function(t) {
+        it('should return true', function() {
+          assert(is.string(t));
+        });
+      });
+
+      falseArray.forEach(function(f) {
+        it('should return false', function() {
+          assert.equal(is.string(f), false);
+        });
+      });
+    });
+
+    describe('is.array', function() {
+      var trueArray = [['1'], [1,2,3,4], [{}, {1: 'hi'}, {'hi': 1}]];
+      var falseArray = ['testing', {}, function() {}];
+
+      trueArray.forEach(function(t) {
+        it('should return true', function() {
+          assert(is.array(t));
+        });
+      });
+
+      falseArray.forEach(function(f) {
+        it('should return false', function() {
+          assert.equal(is.array(f), false);
+        });
       });
     });
   });
+
 });
