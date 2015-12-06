@@ -1,15 +1,35 @@
-'use strict';
-
 var assert = require('assert');
-var e = require('../lib');
+var errorMessenger = require('../lib');
+var isObject = require('../lib/isObject');
 
 describe('error-messenger', function () {
 
   describe('errorMessenger', function() {
     it('should return a string', function() {
-      var testMessage = e.errorMessenger();
-      assert.equal(typeof(testMessage), 'string');
+      var testMessage = errorMessenger();
+      assert.equal(typeof testMessage, 'string');
     });
+
+    it('should return the object passed in the error message ' +
+        'and stringified', function() {
+      var err = {code: 55, message: 'This is a test'};
+      var testMessage = errorMessenger(err);
+      assert(/55/.test(testMessage));
+      assert(/This is a test/.test(testMessage));
+      assert(/code\:/.test(testMessage));
+      assert(/message\:/.test(testMessage));
+    });
+
+    it('should include the function caller name', function() {
+      var err = {code: 10, message: 'Test'};
+      var testMessage;
+      function testFunction(e) {
+        testMessage = errorMessenger(e);
+      }
+      testFunction(err);
+      assert(/testFunction/.test(testMessage));
+    });
+
   });
 
   describe('isObject', function() {
@@ -18,15 +38,14 @@ describe('error-messenger', function () {
 
     trueArray.forEach(function(t) {
       it('should return true', function() {
-        assert(e.isObject(t));
+        assert(isObject(t));
       });
     });
 
     falseArray.forEach(function(f) {
       it('should return false', function() {
-        assert.equal(e.isObject(f), false);
+        assert.equal(isObject(f), false);
       });
     });
-  
   });
 });
