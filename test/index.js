@@ -28,6 +28,7 @@ describe('error-messenger', function () {
       }
       testFunction(err);
       assert(/testFunction/.test(testMessage));
+      assert.equal(testMessage, 'Error in testFunction : [ code: 10 | message: Test ]');
     });
 
   });

@@ -8,13 +8,14 @@
 $ npm install --save error-messenger
 ```
 
-
 ## Usage
 
 ```js
 var errorMessenger = require('error-messenger');
 
-errorMessenger('Rainbow');
+errorMessenger({code: 101, message: 'Requires username'});
+
+// Returns "Error in functionNameThatCalledThisError : [ code: 101 | message: Requires username ]"
 ```
 
 ## License
