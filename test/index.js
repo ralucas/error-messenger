@@ -7,7 +7,6 @@ describe('error-messenger', function () {
   describe('errorMessenger', function() {
     it('should return a string', function() {
       var testMessage = errorMessenger();
-      console.log(testMessage);
       assert.equal(typeof testMessage, 'string');
     });
 
